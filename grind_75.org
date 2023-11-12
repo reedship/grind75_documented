@@ -2,8 +2,11 @@
 ** Week 1
 *** Two Sum
 [[https://leetcode.com/problems/two-sum][Problem]]
+
 [[https://www.youtube.com/watch?v=KLlXCFG5TnA][Solution Video (python)]]
+
 Problem Statement:
+
 #+begin_src
 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
@@ -30,7 +33,9 @@ Input: nums = [3,3], target = 6
 Output: [0,1]
 
 #+end_src
+
 Solution
+
 #+begin_src ruby
 # @param {Integer[]} nums
 # @param {Integer} target
@@ -48,7 +53,9 @@ def two_sum(nums, target)
   []
 end
 #+end_src
+
 Commented Solution
+
 #+begin_src ruby
   # @param {Integer[]} nums
   # @param {Integer} target
@@ -74,11 +81,16 @@ Commented Solution
     []
   end
 #+end_src
+
 Look over the list once, using a hash map to store seen values and their indexes. This one is pretty easy and can be solved in `O(n)` [[https://cs50.harvard.edu/ap/2020/assets/pdfs/computational_complexity.pdf][time and space complexity]]. Time is `O(n)` since we are only looking over the length of the array once, and Space is because our created hash could have up to the total length of the original array in assigned memory.
 *** Valid Parentheses
+
 [[ https://leetcode.com/problems/valid-parentheses][Problem]]
+
 [[https://www.youtube.com/watch?v=WTzjTskDFMg][Solution Video (python)]]
+
 Problem statement:
+
 #+begin_src
   Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
@@ -105,6 +117,7 @@ Output: false
 #+end_src
 
 Solution:
+
 #+begin_src ruby
   # @param {String} s
   # @return {Boolean}
@@ -131,6 +144,7 @@ end
 #+end_src
 
 Commented Solution
+
 #+begin_src ruby
 # @param {String} s
 # @return {Boolean}
@@ -168,6 +182,7 @@ end
 My first mistake on this problem was thinking that I could simply keep track of how many brackets were opened and closed, and use three integers to track the 'count', and every int had a result of 0, then return true. This doesn't account for if the brackets are in the right order, though.
 
 In order to do this correctly, you need to ensure that the last bracket that was opened is the one that is being closed. This calls for using a [[https://en.wikipedia.org/wiki/Stack_(abstract_data_type)][Stack]] as the main data structure for solving this problem. [[https://en.wikipedia.org/wiki/Time_complexity][Time]] and [[https://en.wikipedia.org/wiki/Space_complexity][space]] are both `O(n)`.
+
 *** Merge Two Sorted Lists
 [[https://leetcode.com/problems/merge-two-sorted-lists/][Problem]]
 [[https://www.youtube.com/watch?v=XIdigk956u0][Video Solution (python)]]
