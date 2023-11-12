@@ -1,0 +1,317 @@
+* Grind 75
+** Week 1
+*** Two Sum
+[[https://leetcode.com/problems/two-sum][Problem]]
+[[https://www.youtube.com/watch?v=KLlXCFG5TnA][Solution Video (python)]]
+Problem Statement:
+#+begin_src
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+#+end_src
+Solution
+#+begin_src ruby
+# @param {Integer[]} nums
+# @param {Integer} target
+# @return {Integer[]}
+def two_sum(nums, target)
+  h = {}
+  nums.each_with_index do |num, index|
+    alt = target - num
+    if h[alt]
+      return [h[alt],index]
+    else
+      h[num] = index
+    end
+  end
+  []
+end
+#+end_src
+Commented Solution
+#+begin_src ruby
+  # @param {Integer[]} nums
+  # @param {Integer} target
+  # @return {Integer[]}
+  def two_sum(nums, target)
+
+    # instanciate a hash to store our visited index values
+    h = {}
+    # for each item in the array
+    nums.each_with_index do |num, index|
+      # find the difference needed to meet the target
+      alt = target - num
+      # if this difference exists as a key in our hashmap
+      # that means we have seen the item and can return
+      if h[alt]
+        return [h[alt],index]
+      else
+        # track this num as the key, with the index as the value
+        h[num] = index
+      end
+    end
+    # if we haven't found it, return an empty array
+    []
+  end
+#+end_src
+Look over the list once, using a hash map to store seen values and their indexes. This one is pretty easy and can be solved in `O(n)` [[https://cs50.harvard.edu/ap/2020/assets/pdfs/computational_complexity.pdf][time and space complexity]]. Time is `O(n)` since we are only looking over the length of the array once, and Space is because our created hash could have up to the total length of the original array in assigned memory.
+*** Valid Parentheses
+[[ https://leetcode.com/problems/valid-parentheses][Problem]]
+[[https://www.youtube.com/watch?v=WTzjTskDFMg][Solution Video (python)]]
+Problem statement:
+#+begin_src
+  Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+    Open brackets must be closed by the same type of brackets.
+    Open brackets must be closed in the correct order.
+    Every close bracket has a corresponding open bracket of the same type.
+
+Example 1:
+
+Input: s = "()"
+
+Output: true
+
+Example 2:
+
+Input: s = "()[]{}"
+Output: true
+
+Example 3:
+
+Input: s = "(]"
+Output: false
+#+end_src
+
+Solution:
+#+begin_src ruby
+  # @param {String} s
+  # @return {Boolean}
+def is_valid(s)
+  closed_map = {
+    ']' => '[',
+    '}' => '{',
+    ')' => '('
+  }
+  stack = []
+  s.each_char do |c|
+    if closed_map[c]
+      if stack && stack.last == closed_map[c]
+        stack.pop
+      else
+        return false
+      end
+    else
+      stack.push(c)
+    end
+  end
+  return stack.empty?
+end
+#+end_src
+
+Commented Solution
+#+begin_src ruby
+# @param {String} s
+# @return {Boolean}
+def is_valid(s)
+  # create a dictionary that we can use to reference the pairs of brackets.
+  closed_map = {
+    ']' => '[',
+    '}' => '{',
+    ')' => '('
+  }
+  # instantiate our stack to store the most recently opened bracket
+  stack = []
+  # for each character in the string
+  s.each_char do |c|
+    # if we are seeing a closing bracket
+    if closed_map[c]
+      # if the stack is not empty and the last (ie: topmost) object in the stack corresponds with the current closing bracket we are looking at
+      if stack && stack.last == closed_map[c]
+        # then we clan remove the opening bracket from the stack as it is now resolved.
+        stack.pop
+      else
+        # we are looking at a closing bracket with no matching opening bracket. improper order.
+        return false
+      end
+    else
+      # this is an opening bracket.
+      stack.push(c)
+    end
+  end
+  # if our stack is empty we have closed every previously opened bracket
+  return stack.empty?
+end
+#+end_src
+
+My first mistake on this problem was thinking that I could simply keep track of how many brackets were opened and closed, and use three integers to track the 'count', and every int had a result of 0, then return true. This doesn't account for if the brackets are in the right order, though.
+
+In order to do this correctly, you need to ensure that the last bracket that was opened is the one that is being closed. This calls for using a [[https://en.wikipedia.org/wiki/Stack_(abstract_data_type)][Stack]] as the main data structure for solving this problem. [[https://en.wikipedia.org/wiki/Time_complexity][Time]] and [[https://en.wikipedia.org/wiki/Space_complexity][space]] are both `O(n)`.
+*** Merge Two Sorted Lists
+[[https://leetcode.com/problems/merge-two-sorted-lists/][Problem]]
+[[https://www.youtube.com/watch?v=XIdigk956u0][Video Solution (python)]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Best Time to Buy and Sell Stock
+[[https://leetcode.com/problems/best-time-to-buy-and-sell-stock][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Valid Palindrome
+[[https://leetcode.com/problems/valid-palindrome][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Invert Binary Tree
+[[https://leetcode.com/problems/invert-binary-tree][Problem]]
+
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Valid Anagram
+[[https://leetcode.com/problems/valid-anagram][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Binary Search
+[[https://leetcode.com/problems/binary-search][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Flood Fill
+[[https://leetcode.com/problems/flood-fill][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Lowest Common Ancestor of a Binary Search Tree
+[[https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Balanced Binary Tree
+[[https://leetcode.com/problems/balanced-binary-tree][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Linked List Cycle
+[[https://leetcode.com/problems/linked-list-cycle][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+*** Implement Queue using Stacks
+[[https://leetcode.com/problems/implement-queue-using-stacks][Problem]]
+Problem Statement:
+#+begin_src
+#+end_src
+Solution:
+#+begin_src ruby
+#+end_src
+Commented Solution:
+#+begin_src ruby
+#+end_src
+
+** Week 2
+
+** Week 3
+
+** Week 4
+
+** Week 5
+
+** Week 6
+
+** Week 7
+
+** Week 8
