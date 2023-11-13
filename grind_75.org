@@ -191,9 +191,81 @@ Problem Statement:
 #+end_src
 Solution:
 #+begin_src ruby
+# Definition for singly-linked list.
+# class ListNode
+#     attr_accessor :val, :next
+#     def initialize(val = 0, _next = nil)
+#         @val = val
+#         @next = _next
+#     end
+# end
+# @param {ListNode} list1
+# @param {ListNode} list2
+# @return {ListNode}
+def merge_two_lists(list1, list2)
+    dummy = ListNode.new
+    tail = dummy
+    while list1 && list2 do
+      if list1.val < list2.val
+        tail.next = list1
+        list1 = list1.next
+      else
+        tail.next = list2
+        list2 = list2.next
+      end
+      tail = tail.next
+    end
+    if list1
+      tail.next = list1
+      list1 = list1.next
+    end
+    if list2
+      tail.next = list2
+      list2 = list2.next
+    end
+    return dummy.next
+end
 #+end_src
 Commented Solution:
 #+begin_src ruby
+  # Definition for singly-linked list.
+  # class ListNode
+  #     attr_accessor :val, :next
+  #     def initialize(val = 0, _next = nil)
+  #         @val = val
+  #         @next = _next
+  #     end
+  # end
+  # @param {ListNode} list1
+  # @param {ListNode} list2
+  # @return {ListNode}
+  def merge_two_lists(list1, list2)
+    # create our 'result' that we will return
+    dummy = ListNode.new
+    # create a pointer to the head that we can manipulate
+    tail = dummy
+    # while both lists have a value in them
+    while list1 && list2 do
+      # if one side has a greater value,
+      if list1.val < list2.val
+        tail.next = list1 # insert it as the next value in our 'result' list
+        list1 = list1.next # and move the pointer of the input list by one
+      else # list2 has a greater value, repeat the same process for list2
+        tail.next = list2
+        list2 = list2.next
+      end
+      tail = tail.next # move the pointer of our result list by one
+    end
+    if list1 # if we still have a value in list1, append to our list and move pointer by one
+      tail.next = list1
+      list1 = list1.next
+    end
+    if list2 # if we still have a value in list2, append to our list and move pointer by one
+      tail.next = list2
+      list2 = list2.next
+    end
+    return dummy.next # return the first value of our result list.
+  end
 #+end_src
 
 *** Best Time to Buy and Sell Stock
