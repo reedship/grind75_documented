@@ -268,65 +268,300 @@ Commented Solution:
   end
 #+end_src
 
+This problem is solvable if you can do the following:
+1. Manage multiple pointers.
+2.
+3. Check for null appropriately.
+
 *** Best Time to Buy and Sell Stock
+
 [[https://leetcode.com/problems/best-time-to-buy-and-sell-stock][Problem]]
+
+[[https://www.youtube.com/watch?v=1pkOgXD63yU][Solution Video (Python)]]
+
 Problem Statement:
+
 #+begin_src
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 #+end_src
+
 Solution:
+
 #+begin_src ruby
+# @param {Integer[]} prices
+# @return {Integer}
+def max_profit(prices)
+  l, r = 0, 1
+  max = 0
+  while r < prices.length do
+    if prices[l] < prices[r]
+      profit = prices[r]-prices[l]
+      max = [max,profit].max
+    else
+      l = r
+    end
+    r += 1
+  end
+  return max
+end
 #+end_src
+
 Commented Solution:
+
 #+begin_src ruby
+  # @param {Integer[]} prices
+  # @return {Integer}
+  def max_profit(prices)
+    # instantiate our pointers and max value seen
+    l, r = 0, 1
+    max = 0
+    # until we have walked all the way through the array
+    while r < prices.length do
+      # if we can determine profit
+      if prices[l] < prices[r]
+        # generate profit and set new max if profit is largest we've seen
+        profit = prices[r]-prices[l]
+        max = [max,profit].max
+      else
+        l = r # r is currently less than left, update our left pointer
+      end
+      r += 1 # walk the right pointer every tick
+    end
+    return max
+  end
 #+end_src
 
 *** Valid Palindrome
-[[https://leetcode.com/problems/valid-palindrome][Problem]]
+[[https://leetcode.com/problems/valid-palindrome][
+Problem]]
+[[https://www.youtube.com/watch?v=jJXJ16kPFWg&t=294s][
+Video Solution (python)]]
+
 Problem Statement:
 #+begin_src
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
 #+end_src
 Solution:
 #+begin_src ruby
+# @param {String} s
+# @return {Boolean}
+def is_palindrome(s)
+  converted = []
+  s.downcase.each_char do |char|
+    if char =~ /[[:alnum:]]/
+      converted.push(char)
+    end
+  end
+  converted == converted.reverse
+end
 #+end_src
 Commented Solution:
 #+begin_src ruby
+# @param {String} s
+# @return {Boolean}
+def is_palindrome(s)
+  converted = []
+  s.downcase.each_char do |char|
+    if char =~ /[[:alnum:]]/
+      converted.push(char)
+    end
+  end
+  converted == converted.reverse
+end
 #+end_src
 
 *** Invert Binary Tree
-[[https://leetcode.com/problems/invert-binary-tree][Problem]]
+[[https://leetcode.com/problems/invert-binary-tree][
+Problem]]
+[[https://www.youtube.com/watch?v=OnSn2XEQ4MY][
+Solution Video (python)]]
 
 Problem Statement:
+
 #+begin_src
+  Given the root of a binary tree, invert the tree, and return its root.
 #+end_src
+
 Solution:
+
 #+begin_src ruby
+# Definition for a binary tree node.
+# class TreeNode
+#     attr_accessor :val, :left, :right
+#     def initialize(val = 0, left = nil, right = nil)
+#         @val = val
+#         @left = left
+#         @right = right
+#     end
+# end
+# @param {TreeNode} root
+# @return {TreeNode}
+def invert_tree(root)
+  return nil if root == nil
+  tmp = root.left
+  root.left = root.right
+  root.right = tmp
+  invert_tree(root.right)
+  invert_tree(root.left)
+  root
+end
 #+end_src
+
 Commented Solution:
+
 #+begin_src ruby
+# Definition for a binary tree node.
+# class TreeNode
+#     attr_accessor :val, :left, :right
+#     def initialize(val = 0, left = nil, right = nil)
+#         @val = val
+#         @left = left
+#         @right = right
+#     end
+# end
+# @param {TreeNode} root
+# @return {TreeNode}
+def invert_tree(root)
+  return nil if root == nil # this is the return clause. If there isn't a null, return
+  tmp = root.left # save left to a temp variable
+  root.left = root.right # swap left and right
+  root.right = tmp
+  invert_tree(root.right) # recursive call to the right
+  invert_tree(root.left) # recursive call to the left
+  root # return the root
+end
 #+end_src
 
 *** Valid Anagram
+
 [[https://leetcode.com/problems/valid-anagram][Problem]]
+
 Problem Statement:
+
 #+begin_src
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 #+end_src
+
 Solution:
+
 #+begin_src ruby
+# @param {String} s
+# @param {String} t
+# @return {Boolean}
+def create_hash(s)
+  h = {}
+  s.each_char do |c|
+    if h[c]
+      h[c] += 1
+    else
+      h[c] = 1
+    end
+  end
+  h
+end
+def is_anagram(s, t)
+  return false if s.length != t.length
+  s_hash = create_hash(s)
+  t_hash = create_hash(t)
+  s_hash.keys.each do |k|
+    return false if s_hash[k] != t_hash[k]
+  end
+  true
+end
 #+end_src
+
 Commented Solution:
+
 #+begin_src ruby
+# @param {String} s
+# @param {String} t
+# @return {Boolean}
+def create_hash(s) # create a hash telling us how many times a letter was used
+  h = {}
+  s.each_char do |c|
+    if h[c]
+      h[c] += 1
+    else
+      h[c] = 1
+    end
+  end
+  h
+end
+def is_anagram(s, t)
+  return false if s.length != t.length # edge case, if they aren't equal, they aren't anagrams
+  s_hash = create_hash(s) # creating our hashes
+  t_hash = create_hash(t)
+  s_hash.keys.each do |k|
+    return false if s_hash[k] != t_hash[k] # if a letter is used different times return false
+  end
+  true # return true if we haven't errored after checking everything
+end
 #+end_src
 
 *** Binary Search
-[[https://leetcode.com/problems/binary-search][Problem]]
+[[https://leetcode.com/problems/binary-search][
+Problem]]
+
+[[https://www.youtube.com/watch?v=s4DPM8ct1pI][Solution Video (python)]]
+
 Problem Statement:
+
 #+begin_src
+Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
+
+You must write an algorithm with O(log n) runtime complexity.
 #+end_src
+
 Solution:
+
 #+begin_src ruby
+# @param {Integer[]} nums
+# @param {Integer} target
+# @return {Integer}
+def search(nums, target)
+  l,r = 0, nums.length - 1
+  while l <= r do
+    pivot = ((l+r) / 2).floor
+    if target == nums[pivot]
+      return pivot
+    elsif target < nums[pivot]
+      r = pivot - 1
+    else
+      l = pivot + 1
+    end
+  end
+  return -1
+end
 #+end_src
+
 Commented Solution:
+
 #+begin_src ruby
+# @param {Integer[]} nums
+# @param {Integer} target
+# @return {Integer}
+def search(nums, target)
+  l,r = 0, nums.length - 1 # instantiate left and right
+  while l <= r do # until l && r have met in the middle
+    pivot = ((l+r) / 2).floor # calculate the midpoint
+    if target == nums[pivot] # if found
+      return pivot # return index
+    elsif target < nums[pivot] # if the target is lower, change right pointer
+      r = pivot - 1
+    else
+      l = pivot + 1 # if target is higher, change left pointer
+    end
+  end
+  return -1 # has not been found
+end
 #+end_src
 
 *** Flood Fill
